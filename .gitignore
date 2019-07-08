@@ -1,2 +1,6 @@
-# Executable files
-*.o
+# Build files
+bin/*
+
+# Vim and editors
+*.swp
+
