@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #define GLFW_INCLUDE_ES2
 #include <GLFW/glfw3.h>
+
+#include "SControls.h"
 
 static const GLuint WIDTH = 800;
 static const GLuint HEIGHT = 600;
@@ -72,6 +73,9 @@ int main(void) {
     GLint pos;
     GLFWwindow* window;
 
+int lol = 500;   
+ SControls::getInstance().init(lol, lol);
+    
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
@@ -81,7 +85,7 @@ int main(void) {
 
     printf("GL_VERSION  : %s\n", glGetString(GL_VERSION) );
     printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER) );
-
+    
     shader_program = common_get_shader_program(vertex_shader_source, fragment_shader_source);
     pos = glGetAttribLocation(shader_program, "position");
 
