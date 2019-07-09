@@ -1,6 +1,11 @@
 # Build files
 bin/*
 
-# Vim and editors
+# Editors
+# vim
 *.swp
+
+# QTCreator
+*.user
+*.autosave
 
