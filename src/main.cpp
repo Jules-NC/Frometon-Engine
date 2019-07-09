@@ -79,14 +79,11 @@ int main(void) {
 
 // [Link tests]
 	int lol = 500;   
-	 SControls::getInstance().init(lol, lol);
+     //SControls::getInstance().init(lol, lol);
 	Assimp::Importer importer;
 // [/link tests]
 
     glfwInit();
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     window = glfwCreateWindow(WIDTH, HEIGHT, __FILE__, NULL, NULL);
     glfwMakeContextCurrent(window);
 

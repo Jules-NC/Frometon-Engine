@@ -9,7 +9,7 @@ public:
 		return instance;
 	}
 
-	bool init(int width, int height);
+    bool init(int width, int height);
 	GLFWwindow* getWindows();
 	void computeMatrices();
 
@@ -22,6 +22,5 @@ private:
 	GLFWwindow* WINDOW;
 
 	int WIDTH;
-	int HEIGHT;
+    int HEIGHT;
 };
-
