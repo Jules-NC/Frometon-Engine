@@ -75,20 +75,18 @@ GLint common_get_shader_program(const char *vertex_shader_source, const char *fr
 int main(void) {
     GLuint shader_program, vbo;
     GLint pos;
-    GLFWwindow* window;
+    SControls::getInstance().init(WIDTH ,HEIGHT);
+    GLFWwindow* window = SControls::getInstance().getWindows();
 
 // [Link tests]
-	int lol = 500;   
+    int lol = 500;
      //SControls::getInstance().init(lol, lol);
-	Assimp::Importer importer;
+    Assimp::Importer importer;
 // [/link tests]
-
-    glfwInit();
-    window = glfwCreateWindow(WIDTH, HEIGHT, __FILE__, NULL, NULL);
     glfwMakeContextCurrent(window);
 
-    printf("GL_VERSION  : %s\n", glGetString(GL_VERSION) );
-    printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER) );
+    printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
+    printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
     
     shader_program = common_get_shader_program(vertex_shader_source, fragment_shader_source);
     pos = glGetAttribLocation(shader_program, "position");
