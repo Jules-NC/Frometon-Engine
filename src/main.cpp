@@ -5,6 +5,10 @@
 
 #include "SControls.h"
 
+
+#include <assimp/Importer.hpp>                  // |Assimp
+
+
 static const GLuint WIDTH = 800;
 static const GLuint HEIGHT = 600;
 static const GLchar* vertex_shader_source =
@@ -73,9 +77,12 @@ int main(void) {
     GLint pos;
     GLFWwindow* window;
 
-int lol = 500;   
- SControls::getInstance().init(lol, lol);
-    
+// [Link tests]
+	int lol = 500;   
+	 SControls::getInstance().init(lol, lol);
+	Assimp::Importer importer;
+// [/link tests]
+
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
