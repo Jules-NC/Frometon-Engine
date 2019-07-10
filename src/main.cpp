@@ -20,7 +20,7 @@ float SPEED;
 
 bool initGLEW();
 
-glm::mat4 CarCamera = glm::mat4();
+glm::mat4 Camera = glm::mat4();
 
 
 bool initGLEW() {
