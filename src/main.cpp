@@ -44,9 +44,11 @@ int main(void)
     WINDOW = SControls::getInstance().getWindows();
 
     initGLEW();
+    printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
+    printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
 
     // SHADERS
-    GLuint programID = LoadShaders("/lol.vs", "/lel.fs");
+    GLuint programID = LoadShaders("/lel.fs", "/lol.vs" );
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
 
