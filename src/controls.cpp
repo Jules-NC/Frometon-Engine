@@ -1,6 +1,7 @@
 // Include GLFW
 #include <GLFW/glfw3.h>
 // Include GLM
+#include <math.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "controls.h"
@@ -37,7 +38,16 @@ float initialFoV = 45.0f;
 
 float speed = 3.0f; // 3 units / second
 float mouseSpeed = 0.005f;
+float PIs2 = M_1_PI/2*10;
 
+float clampVertical(float * f){
+    if(*f > PIs2){
+        *f = PIs2;
+    }
+    else if (*f < -PIs2){
+        *f = -PIs2;
+    }
+}
 
 
 void computeMatricesFromInputs() {
@@ -56,9 +66,11 @@ void computeMatricesFromInputs() {
     // Reset mouse position for next frame
     glfwSetCursorPos(WINDOW, 1024 / 2, 768 / 2);
 
-    // Compute new orientation
-    horizontalAngle += mouseSpeed * float(1024 / 2 - xpos);
-    verticalAngle += mouseSpeed * float(768 / 2 - ypos);
+        // Compute new orientation
+        horizontalAngle += mouseSpeed * float(1024 / 2 - xpos);
+        verticalAngle += mouseSpeed * float(768 / 2 - ypos);
+        clampVertical(&verticalAngle);
+    }
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
     glm::vec3 direction(
