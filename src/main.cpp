@@ -53,12 +53,12 @@ int main(void)
 
 
     // ======================== DESSIN ============================
-    char * path = "../res/TextureGrid.jpg";
-    char * objSquare = "../res/square.obj";
+    std::string path = "../res/TextureGrid.jpg";
+    std::string objSquare = "../res/square.obj";
 
     CShape square = CShape();
 
-    square.init(objSquare, path);
+    square.init(objSquare.c_str(), path.c_str());
 
     // ======================== /DESSIN ===========================
     float lol2 = 0.01f;
