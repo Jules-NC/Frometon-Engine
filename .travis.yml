@@ -1,8 +1,13 @@
 language: cpp
+
 sudo: required
+
 os: linux
+
 dist: xenial
 
+compiler:
+  - gcc
 
 before_install: before_install:
   - sudo apt-get install -y libgles2-mesa-dev
@@ -21,8 +26,7 @@ addons:
       - cmake
       - make
 
-compiler:
-  - gcc
+
 
 script:
   - export CC=gcc-7
