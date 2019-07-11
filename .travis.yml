@@ -37,4 +37,3 @@ script:
   - cd build
   - cmake ..
   - make
-  - ./Frometon-Engine
