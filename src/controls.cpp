@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "controls.h"
+#include "SControls.h"
 
 using namespace glm;
 
@@ -38,7 +39,11 @@ float initialFoV = 45.0f;
 
 float speed = 3.0f; // 3 units / second
 float mouseSpeed = 0.005f;
+bool turnLock = false;
+float lastLock = 0;
+float now;
 float PIs2 = M_1_PI/2*10;
+bool locked = false;
 
 float clampVertical(float * f){
     if(*f > PIs2){
@@ -63,14 +68,18 @@ void computeMatricesFromInputs() {
     double xpos, ypos;
     glfwGetCursorPos(WINDOW, &xpos, &ypos);
 
-    // Reset mouse position for next frame
-    glfwSetCursorPos(WINDOW, 1024 / 2, 768 / 2);
+
+
+    if(!turnLock){
+        // Reset mouse position for next frame
+        glfwSetCursorPos(WINDOW, 1024 / 2, 768 / 2);
 
         // Compute new orientation
         horizontalAngle += mouseSpeed * float(1024 / 2 - xpos);
         verticalAngle += mouseSpeed * float(768 / 2 - ypos);
         clampVertical(&verticalAngle);
     }
+
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
     glm::vec3 direction(
@@ -88,6 +97,22 @@ void computeMatricesFromInputs() {
 
     // Up vector
     glm::vec3 up = glm::cross(right, direction);
+
+    // Block view
+    if(glfwGetKey(WINDOW, GLFW_KEY_P) == GLFW_PRESS){
+        now = glfwGetTime();
+        if(now - lastLock > 0.15){
+            turnLock = !turnLock;
+            lastLock = now;
+            locked = !locked;
+            if(!locked){
+                glfwSetInputMode(SControls::getInstance().getWindows(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            }
+            else{
+                glfwSetInputMode(SControls::getInstance().getWindows(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            }
+        }
+    }
 
     // Move forward
     if (glfwGetKey(WINDOW, GLFW_KEY_Z) == GLFW_PRESS) {
