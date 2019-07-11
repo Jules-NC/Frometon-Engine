@@ -1,5 +1,6 @@
 Frometon-Engine
 ==============
+[![Build Status](https://travis-ci.com/Jules-NC/Frometon-Engine.svg?token=aKfRAvfxB7MBKdnAify4&branch=master)](https://travis-ci.com/Jules-NC/Frometon-Engine)
 
 Frometon-Engine is an opinioned game engine with a focus on space physics
 
