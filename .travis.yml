@@ -10,6 +10,7 @@ addons:
     packages:
       - g++-7
       - cmake
+      - libgles2-mesa-dev
 
 compiler:
   - gcc
