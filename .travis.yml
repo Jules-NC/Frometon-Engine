@@ -12,4 +12,10 @@ before_install:
 compiler:
   - gcc
 
-script: ls
+script:
+  - ./install_base.sh
+  - mkdir -p build
+  - cd build
+  - cmake ..
+  - make
+  - ./Frometon-Engine
