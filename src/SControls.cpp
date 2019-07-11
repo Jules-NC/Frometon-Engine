@@ -25,6 +25,7 @@ bool SControls::init(int width, int height)
 
 	glfwMakeContextCurrent(WINDOW);
 
+    glfwSetInputMode(this->WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetInputMode(WINDOW, GLFW_STICKY_KEYS, GL_TRUE);
 	return true;
 }

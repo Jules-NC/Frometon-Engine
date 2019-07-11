@@ -10,3 +10,10 @@ build/*
 *.user
 *.autosave
 
+# Ressource files
+*.jpg
+*.png
+
+# Lib files
+lib/*
+
