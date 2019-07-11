@@ -3,8 +3,6 @@ sudo: required
 os: linux
 before_install:
   - sudo apt-get update
-  - sudo apt-get install -y libgles2-mesa-dev
-  - sudo apt-get install -y libglfw3-dev
   - sudo apt-get install -y libglew-dev
   - sudo apt-get install -y libglm-dev
   - sudo apt-get install -y libassimp-dev
@@ -19,9 +17,9 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-7
+      - libgles2-mesa-dev
+      - libglfw3-dev
 
-install:
-  - "[ $CXX = g++ ] && export CXX=g++-6 || true"
 
 compiler:
   - gcc
