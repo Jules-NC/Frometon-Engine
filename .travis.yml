@@ -19,7 +19,7 @@ addons:
     packages:
       - g++-7
       - cmake
-      - libgles2-mesa-dev
+      - make
 
 compiler:
   - gcc
