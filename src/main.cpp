@@ -48,43 +48,37 @@ int main(void)
     printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
 
     // SHADERS
-    GLuint programID = LoadShaders("/lel.fs", "/lol.vs" );
+    GLuint programID = LoadShaders("../src/lol.vs", "../src/lel.fs" );
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
 
     // ======================== DESSIN ============================
-    char * path = "../../parpaing.jpg";
-    char * objSquare = "../../square.obj";
+    char * path = "../res/TextureGrid.jpg";
+    char * objSquare = "../res/square.obj";
 
     CShape square = CShape();
 
     square.init(objSquare, path);
 
     // ======================== /DESSIN ===========================
+    float lol2 = 0.01f;
 
+    glm::mat4 ModelMatrix = glm::mat4(1.0);
+    ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, 0.f));
+    ModelMatrix = glm::rotate(ModelMatrix, 18.f, glm::vec3(1.f, 0.f, 0.f));
 
-    double lastTime = glfwGetTime();
-    int nbFrames = 0;
+    glUseProgram(programID);
     do {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUseProgram(programID);
-        double currentTime = glfwGetTime();
-
-        nbFrames++;
-        float deltaTime = currentTime - lastTime;
-
-        if (currentTime - lastTime >= 1.0) {
-            printf("%f ms/frame\n",1000- 1000.0 / double(deltaTime));
-            nbFrames = 0;
-            lastTime += 1.0;
-        }
 
         computeMatricesFromInputs();
         glm::mat4 ProjectionMatrix = getProjectionMatrix();
         glm::mat4 ViewMatrix = getViewMatrix();
         glm::mat4 MVP;
 
-        MVP = ProjectionMatrix * ViewMatrix;
+        ModelMatrix = glm::rotate(ModelMatrix, lol2, glm::vec3(lol2, lol2, lol2));
+
+        MVP = ProjectionMatrix * ViewMatrix* ModelMatrix;
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
         square.draw();
 
@@ -92,6 +86,7 @@ int main(void)
         glfwSwapBuffers(WINDOW);
         glfwPollEvents();
     }
+
     while (glfwGetKey(WINDOW, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
         glfwWindowShouldClose(WINDOW) == 0);
 
