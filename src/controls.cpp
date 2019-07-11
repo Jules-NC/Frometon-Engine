@@ -1,5 +1,6 @@
 // Include GLFW
 #include <GLFW/glfw3.h>
+#include <iostream>
 // Include GLM
 #include <math.h>
 #include <glm/glm.hpp>
@@ -54,7 +55,6 @@ float clampVertical(float * f){
     }
 }
 
-
 void computeMatricesFromInputs() {
 
     // glfwGetTime is called only once, the first time this function is called
@@ -73,7 +73,6 @@ void computeMatricesFromInputs() {
     if(!turnLock){
         // Reset mouse position for next frame
         glfwSetCursorPos(WINDOW, 1024 / 2, 768 / 2);
-
         // Compute new orientation
         horizontalAngle += mouseSpeed * float(1024 / 2 - xpos);
         verticalAngle += mouseSpeed * float(768 / 2 - ypos);
@@ -115,7 +114,7 @@ void computeMatricesFromInputs() {
     }
 
     // Move forward
-    if (glfwGetKey(WINDOW, GLFW_KEY_Z) == GLFW_PRESS) {
+    if (glfwGetKey(WINDOW, GLFW_KEY_W) == GLFW_PRESS) {
         position += direction * deltaTime * speed;
     }
     if (glfwGetKey(WINDOW, GLFW_KEY_UP) == GLFW_PRESS) {
@@ -129,7 +128,7 @@ void computeMatricesFromInputs() {
     if (glfwGetKey(WINDOW, GLFW_KEY_D) == GLFW_PRESS) {
         position += right * deltaTime * speed;
     }
-    if (glfwGetKey(WINDOW, GLFW_KEY_Q) == GLFW_PRESS) {
+    if (glfwGetKey(WINDOW, GLFW_KEY_A) == GLFW_PRESS) {
         position -= right * deltaTime * speed;
     }
 
