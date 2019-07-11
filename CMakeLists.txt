@@ -29,8 +29,8 @@ include_directories(
 	${GLUT_INCLUDE_DIRS}
 	${GLFW_INCLUDE_DIRS}
 	${ASSIMP_INCLUDE_DIRS}
-  ${GLEW_INCLUDE_DIRS}
-  )
+	${GLEW_INCLUDE_DIRS}
+	)
 
 target_link_libraries(
 	Frometon-Engine
