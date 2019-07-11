@@ -26,7 +26,7 @@ glm::mat4 Camera = glm::mat4();
 bool initGLEW() {
     glewExperimental = true; // Needed for core profile
     const auto glewInitStatus = glewInit();
-    if (glewInitStatus != GLEW_OK)
+    if (glewInitStatus != GLEW_OK){
         std::cout << "Could not initialize glew, error: " << glewGetErrorString(glewInitStatus);
         return false;
     }
