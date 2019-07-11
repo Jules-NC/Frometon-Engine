@@ -25,14 +25,10 @@ glm::mat4 Camera = glm::mat4();
 
 bool initGLEW() {
     glewExperimental = true; // Needed for core profile
-    if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "Failed to initialize GLEW\n");
-    	GLenum error = glGetError();
-
-    	if (error != GL_NO_ERROR){
-        	std::cout << "OpenGL Error: " << error << std::endl;
-   	}
-	return false;
+    const auto glewInitStatus = glewInit();
+    if (glewInitStatus != GLEW_OK)
+        std::cout << "Could not initialize glew, error: " << glewGetErrorString(glewInitStatus);
+        return false;
     }
 
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
