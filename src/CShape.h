@@ -14,7 +14,7 @@ public:
     CShape();
     ~CShape() = default;
 
-    void init(char * pathobj, char * path);
+    void init(const char * pathobj, const char * path);
 
     void setup();
     void draw();
@@ -36,7 +36,7 @@ private:
     GLfloat * vertices;
     GLuint * indices;
     GLfloat * uv;
-    char * path;
+    const char * path;
 
     int mNumElements;
 

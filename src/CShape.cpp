@@ -9,14 +9,14 @@
 
 CShape::CShape() {}
 
-void CShape::init(char* pathobj, char * path) {
+void CShape::init(const char* pathobj, const char * path) {
 
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(pathobj, aiProcess_Triangulate
         | aiProcess_FlipUVs);
 
     if (!scene) {
-        fprintf(stderr, importer.GetErrorString());
+        fprintf(stderr, "%s", importer.GetErrorString());
         getchar();
         return;
     }
