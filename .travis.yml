@@ -12,13 +12,18 @@ before_install:
   - sudo apt-get install -y freeglut3-dev
   - sudo apt-get install -y make
   - sudo apt-get install -y cmake
+  - sudo apt-get install -y clang
 
 addons:
   apt:
     update: true
-    
+
+install:
+- "[ $CXX = g++ ] && export CXX=g++-6 || true"
+
 compiler:
   - gcc
+  - clang
 
 script:
   - ./install_base.sh
