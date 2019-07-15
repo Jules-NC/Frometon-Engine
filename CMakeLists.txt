@@ -1,39 +1,13 @@
-cmake_minimum_required(VERSION 3.1)
-project(Frometon-Engine)
 
-find_package(OpenGL REQUIRED)
-find_package(assimp REQUIRED)
-find_package(PkgConfig REQUIRED)
-find_package(GLEW REQUIRED)
+cmake_minimum_required (VERSION 2.6)
+project (imgui-glfw)
 
-link_directories(${ASSIMP_LIBRARY_DIRS})
+set(CMAKE_CXX_STANDARD 14)
 
-add_executable(
-	Frometon-Engine
-	src/main.cpp
-	src/SControls.h
-	src/SControls.cpp
-	src/CShape.h
-	src/CShape.cpp
-	src/shader.h
-	src/shader.cpp
-	src/controls.h
-	src/controls.cpp
-	)
+set(CMAKE_BUILD_TYPE "Debug")
 
-pkg_search_module(GLFW REQUIRED glfw3)
+add_definitions("-DCPP_SRC_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/\"")
 
-include_directories(
-	${OPENGL_INCLUDE_DIRS}
-	${GLFW_INCLUDE_DIRS}
-	${ASSIMP_INCLUDE_DIRS}
-	${GLEW_INCLUDE_DIRS}
-	)
 
-target_link_libraries(
-	Frometon-Engine
-	${OPENGL_LIBRARIES}
-	${GLFW_LIBRARIES}
-	${ASSIMP_LIBRARIES}
-	${GLEW_LIBRARIES}
-	)
+add_subdirectory(modules)
+add_subdirectory(src)
