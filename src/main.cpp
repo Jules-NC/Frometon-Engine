@@ -62,8 +62,8 @@ int main(int, char**)
 
     // Setup style
     //ImGui::StyleColorsDark();
-    //ImGui::StyleColorsClassic();
-    ImGui::StyleColorsLight();
+    ImGui::StyleColorsClassic();
+   // ImGui::StyleColorsLight();
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -77,10 +77,10 @@ int main(int, char**)
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
 
     auto font_default = io.Fonts->AddFontDefault();
-    auto font_cousine = io.Fonts->AddFontFromFileTTF( CPP_SRC_DIR "modules/imgui/misc/fonts/Cousine-Regular.ttf", 15.0f);
+/*    auto font_cousine = io.Fonts->AddFontFromFileTTF( CPP_SRC_DIR "modules/imgui/misc/fonts/Cousine-Regular.ttf", 15.0f);
     auto font_karla   = io.Fonts->AddFontFromFileTTF( CPP_SRC_DIR "modules/imgui/misc/fonts/Karla-Regular.ttf", 18.0f);
     auto font_lato    = io.Fonts->AddFontFromFileTTF( CPP_SRC_DIR "fonts/Lato-Regular.ttf", 18.0f);
-
+*/
 
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
@@ -116,7 +116,7 @@ int main(int, char**)
 
         static int font_current = 0;
         static int old_font_current = 0;
-        switch (font_current)
+        /*switch (font_current)
         {
             case 0:
                 ImGui::PushFont(font_default);
@@ -130,8 +130,9 @@ int main(int, char**)
             case 3:
                 ImGui::PushFont(font_lato);
                 break;
-        }
+        }*/
 
+                 ImGui::PushFont(font_default); 
 
         // 1. Show a simple window.
         // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
@@ -147,7 +148,7 @@ int main(int, char**)
             ImGui::Checkbox("Themes Window", &show_theme_window);      // Edit bools storing our windows open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
 
-            ImGui::Text("Font Samples");
+ /*           ImGui::Text("Font Samples");
             ImGui::PushFont(font_cousine);
             ImGui::Text("Font Render Test - Cousine: Bit Test.123");
             ImGui::Text("Font Render Test - Cousine: XXXXXXXXXXXX");
@@ -162,7 +163,7 @@ int main(int, char**)
             ImGui::Text("Font Render Test - Lato: Bit Test.123");
             ImGui::Text("Font Render Test - Lato: XXXXXXXXXXXX");
             ImGui::PopFont();
-
+*/
             if (ImGui::Button("Button"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
                 counter++;
             ImGui::SameLine();
