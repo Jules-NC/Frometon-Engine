@@ -1,5 +1,7 @@
 #pragma once
-#include <GL/glew.h>
+//#include <GL/glew.h>
+#include <glad/glad.h>
+
 #include <glm/gtc/matrix_transform.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 

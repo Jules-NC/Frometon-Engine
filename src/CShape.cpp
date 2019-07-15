@@ -2,7 +2,7 @@
 #include <vector>
 #include "CShape.h"
 
-#include "../lib/stb_image.h"
+#include "stb_image.h"
 #include <assimp/Importer.hpp>			// |Assimp
 #include <assimp/scene.h>           // Output data structure
 #include <assimp/postprocess.h>
