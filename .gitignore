@@ -14,8 +14,7 @@ build/*
 *.png
 
 # Submodules files
-modules/imgui/*
-modules/glfw/*
+
 
 #lib
 src/stb_image.h
