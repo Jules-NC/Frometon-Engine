@@ -46,7 +46,8 @@ float now;
 float PIs2 = M_1_PI/2*10;
 bool locked = false;
 
-float clampVertical(float * f){
+bool first = true;
+void clampVertical(float * f){
     if(*f > PIs2){
         *f = PIs2;
     }
@@ -56,6 +57,11 @@ float clampVertical(float * f){
 }
 
 void computeMatricesFromInputs() {
+    SControls::getInstance().getWindows();
+    if(first){
+        glfwSetCursorPos(WINDOW, 1024 / 2, 768 / 2);
+        first = false;
+    }
 
     // glfwGetTime is called only once, the first time this function is called
     static double lastTime = glfwGetTime();
@@ -104,6 +110,7 @@ void computeMatricesFromInputs() {
             turnLock = !turnLock;
             lastLock = now;
             locked = !locked;
+            first = true;
             if(!locked){
                 glfwSetInputMode(SControls::getInstance().getWindows(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
             }
