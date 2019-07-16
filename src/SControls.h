@@ -13,10 +13,12 @@ public:
     bool init(int width, int height);
 	GLFWwindow* getWindows();
 
-	void computeMatrices();
+    void computeInputs();
     glm::mat4 getViewMatrix();
     glm::mat4 getProjectionMatrix();
 
+    float getCameraSpeed();
+    void setCameraSpeed(float f);
 
 private:
     SControls() = default;
@@ -24,10 +26,11 @@ private:
 	SControls(const SControls&) = delete;
 	SControls& operator=(const SControls&) = delete;
 	
-	GLFWwindow* WINDOW;
+    //void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+    GLFWwindow* WINDOW;
 
-    int WIDTH;
-    int HEIGHT;
+    int width;
+    int height;
 
     bool lockView;
     bool firstTickOfUnLock;
@@ -37,7 +40,11 @@ private:
     float verticalAngle;
     float fov;
     float cameraSpeed;
+    float mouseSpeed;
 
     glm::vec3 position;
     glm::vec3 direction;
+
+    glm::mat4 viewMatrix;
+    glm::mat4 projMatrix;
 };
