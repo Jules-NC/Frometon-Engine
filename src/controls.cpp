@@ -143,7 +143,7 @@ void computeMatricesFromInputs() {
 
     float FoV = initialFoV;
 
-    ProjectionMatrix = glm::perspective(FoV, 4.0f / 3.0f, 0.01f, 1000000.0f);
+    ProjectionMatrix = glm::perspective(FoV, 16.0f / 9.0f, 0.01f, 1000000.0f);
     ViewMatrix = glm::lookAt(position, position+direction, up);
 
     glfwSetScrollCallback(WINDOW, scroll_callback);

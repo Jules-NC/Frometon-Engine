@@ -17,8 +17,12 @@
 #include "SControls.h"
 #include "CShape.h"
 #include <iostream>
+
+
 GLFWwindow * WINDOW;
 float SPEED;
+unsigned int WIDTH = 1024;
+unsigned int HEIGHT = 768;
 
 
 static void glfw_error_callback(int error, const char* description)
@@ -35,17 +39,19 @@ int main(int, char**)
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#if __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "ImGui GLFW+OpenGL3 example", NULL, NULL);
+
+    SControls::getInstance().init(WIDTH, HEIGHT);
+    GLFWwindow* window = SControls::getInstance().getWindows();
+    WINDOW = window;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
 
     gladLoadGL((GLADloadfunc) glfwGetProcAddress);
+    	glEnable(GL_CULL_FACE);
 
     //gl3wInit();
 
@@ -94,13 +100,26 @@ int main(int, char**)
 
     CShape cddd = CShape();
     //cddd.init("square.obj", "TextureGrid.jpg");
-
-    //GLuint programID = LoadShaders("../../lol.vs", "../../src/lel.fs" );
+    GLuint programID = LoadShaders("../../src/lol.vs", "../../src/lel.fs");
     //GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+    GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+
 
     // Main loop
+    cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg");
+    glm::mat4 ModelMatrix = glm::mat4(1.0);
+    ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, 0.f));
+    ModelMatrix = glm::rotate(ModelMatrix, 18.f, glm::vec3(1.f, 0.f, 0.f));
+    glUseProgram(programID);
+    int lol2 = 0.01f;
+
     while (!glfwWindowShouldClose(window))
     {
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+      glUseProgram(programID);
+
+       //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //cddd.draw();
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -109,7 +128,20 @@ int main(int, char**)
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
 
-        // Start the ImGui frame
+
+
+        computeMatricesFromInputs();
+        glm::mat4 ProjectionMatrix = getProjectionMatrix();
+        glm::mat4 ViewMatrix = getViewMatrix();
+        glm::mat4 MVP;
+        ModelMatrix = glm::rotate(ModelMatrix, 0.02f, glm::vec3(0.2f, 3.f, 1.f));
+
+        //ModelMatrix = glm::rotate(ModelMatrix, lol2, glm::vec3(lol2, lol2, lol2));
+
+        MVP = ProjectionMatrix * ViewMatrix* ModelMatrix;
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        cddd.draw();        // Start the ImGui frame
+
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -132,7 +164,7 @@ int main(int, char**)
                 break;
         }*/
 
-                 ImGui::PushFont(font_default); 
+                 ImGui::PushFont(font_default);
 
         // 1. Show a simple window.
         // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
@@ -236,15 +268,21 @@ int main(int, char**)
         // Rendering
         ImGui::Render();
         int display_w, display_h;
-        glfwMakeContextCurrent(window);
+
+
+
+
+        //glfwMakeContextCurrent(window);
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT);
+
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwMakeContextCurrent(window);
         glfwSwapBuffers(window);
+
     }
 
     // Cleanup
