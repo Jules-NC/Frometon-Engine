@@ -25,6 +25,7 @@ unsigned int WIDTH = 1024;
 unsigned int HEIGHT = 768;
 
 
+
 static void glfw_error_callback(int error, const char* description)
 {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
@@ -34,7 +35,10 @@ void StyleColorsSofty(ImGuiStyle* dst = NULL);
 
 int main(int, char**)
 {
-
+    float rot_speed = 0;
+    float  rot_x = 1;
+    float  rot_y = 0;
+    float  rot_z = 0;
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
@@ -48,7 +52,7 @@ int main(int, char**)
     GLFWwindow* window = SControls::getInstance().getWindows();
     WINDOW = window;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync
+    glfwSwapInterval(true); // Enable vsync
 
     gladLoadGL((GLADloadfunc) glfwGetProcAddress);
     	glEnable(GL_CULL_FACE);
@@ -134,7 +138,7 @@ int main(int, char**)
         glm::mat4 ProjectionMatrix = getProjectionMatrix();
         glm::mat4 ViewMatrix = getViewMatrix();
         glm::mat4 MVP;
-        ModelMatrix = glm::rotate(ModelMatrix, 0.02f, glm::vec3(0.2f, 3.f, 1.f));
+        ModelMatrix = glm::rotate(ModelMatrix, rot_speed, glm::vec3(rot_x, rot_y, rot_z));
 
         //ModelMatrix = glm::rotate(ModelMatrix, lol2, glm::vec3(lol2, lol2, lol2));
 
@@ -207,7 +211,14 @@ int main(int, char**)
         // 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
         if (show_another_window)
         {
-            ImGui::Begin("Another Window", &show_another_window);
+            bool lol22 = true;
+            ImGui::Begin("Another Window", &lol22);
+            ImGui::SliderFloat("speed", &rot_speed, -0.3f, .3f);
+
+            ImGui::SliderFloat("x", &rot_x, -1.f, 1.f);
+            ImGui::SliderFloat("y", &rot_y, -1.f, 1.f);
+            ImGui::SliderFloat("z", &rot_z, -1.f, 1.f);
+
             ImGui::Text("Hello from another window!");
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
