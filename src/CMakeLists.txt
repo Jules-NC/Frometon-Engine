@@ -8,7 +8,8 @@ list(APPEND MAIN_APP_SOURCES
   shader.h
   SControls.cpp
   SControls.h
-
+  SGUI.cpp
+  SGUI.h
   #stb_image.h
 
   imgui_impl_opengl3.h
