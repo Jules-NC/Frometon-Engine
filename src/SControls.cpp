@@ -11,6 +11,7 @@ const float PIs2 = M_1_PI/2*10;
 
 void clampVerticalAngle(float * verticalAngle);
 void scroll_callback2(GLFWwindow* window, double xoffset, double yoffset);
+static void glfw_error_callback(int error, const char* description);
 
 
 bool SControls::init(int width, int height)
@@ -25,7 +26,7 @@ bool SControls::init(int width, int height)
     this->horizontalAngle = 3.14f;
     this->verticalAngle = 0.f;
     this->fov = 45.f;
-    this->cameraSpeed = 1.f;
+    this->cameraSpeed = .5f;
     this->mouseSpeed = 0.005f;
 
     this->position = glm::vec3(0, 0, 5);
@@ -35,6 +36,7 @@ bool SControls::init(int width, int height)
                 cos(verticalAngle) * cos(horizontalAngle)
                 );
 
+    glfwSetErrorCallback(glfw_error_callback); // TODO: know why
 	if (!glfwInit())
 	{
 		return false;
@@ -162,6 +164,12 @@ void SControls::setCameraSpeed(float f){
 }
 
 
+static void glfw_error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+}
+
+
 void scroll_callback2(GLFWwindow* window, double xoffset, double yoffset){
     float speed = SControls::getInstance().getCameraSpeed();
     if (yoffset > 0) {
@@ -174,10 +182,6 @@ void scroll_callback2(GLFWwindow* window, double xoffset, double yoffset){
 
 void clampVerticalAngle(float * verticalAngle){
     float val = *verticalAngle;
-    if(val < PIs2 || val > -PIs2){
-        return;
-    }
-
     if(val > PIs2){
         *verticalAngle = PIs2;
     }
