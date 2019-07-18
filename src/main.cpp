@@ -49,8 +49,8 @@
 #endif
 
 GLFWwindow * WINDOW;
-unsigned int WIDTH = 1920/2;
-unsigned int HEIGHT = 1080/2;
+unsigned int WIDTH = 1920;
+unsigned int HEIGHT = 1080;
 
 
 
@@ -68,10 +68,11 @@ int main(int, char**)
     GLFWwindow* window = SControls::getInstance().getWindows();
     WINDOW = window;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(true); // Enable vsync
+    glfwSwapInterval(false); // Enable vsync
 
     gladLoadGL((GLADloadfunc) glfwGetProcAddress);
     glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 
     SGUI::getInstance().init();
 
@@ -86,10 +87,24 @@ int main(int, char**)
     ModelMatrix = glm::rotate(ModelMatrix, 18.f, glm::vec3(1.f, 0.f, 0.f));
     glUseProgram(programID);
     CShape cddd = CShape();
-    cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg");
+    cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg", 0);
 
-    CShape msquare = CShape();
-    msquare.init("../../res/multisquare.obj", "../../res/TextureGrid.jpg");
+    CShape msquare0 = CShape();
+    CShape msquare1 = CShape();
+    CShape msquare2 = CShape();
+    CShape msquare3 = CShape();
+    CShape msquare4 = CShape();
+    CShape msquare5 = CShape();
+    CShape msquare6 = CShape();
+
+    msquare0.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 0);
+    msquare1.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 1);
+    msquare2.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 2);
+    msquare3.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 3);
+    msquare4.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 4);
+    msquare5.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 5);
+    msquare6.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 6);
+
 
     while (!glfwWindowShouldClose(window))
     {
@@ -107,10 +122,16 @@ int main(int, char**)
         SGUI::getInstance().beginDrawFrame();
 
         cddd.draw();
-        msquare.draw();
+        msquare0.draw();
+        msquare1.draw();
+        msquare2.draw();
+        msquare3.draw();
+        msquare4.draw();
+        msquare5.draw();
+        msquare6.draw();
+
 
         SGUI::getInstance().endDrawFrame();
-
 
         int display_w, display_h;
         //glfwMakeContextCurrent(window);
@@ -123,7 +144,7 @@ int main(int, char**)
 
     }
     cddd.FreeMemory();
-    msquare.FreeMemory();
+    msquare0.FreeMemory();
     SGUI::getInstance().cleanup();
 
     glfwDestroyWindow(window);

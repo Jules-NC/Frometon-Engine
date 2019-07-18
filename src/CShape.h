@@ -29,7 +29,7 @@ public:
     CShape();
     ~CShape() = default;
 
-    void init(const char * pathobj, const char * path);
+    void init(const char * pathobj, const char * path, int pIndex);
 
     void setup();
     void draw();
@@ -51,7 +51,7 @@ private:
     GLuint UVO;
     GLuint TextureID;
 
-    GLfloat * vertices;
+    aiVector3D * vertices;
     GLuint * indices;
     GLfloat * uv;
     const char * path;

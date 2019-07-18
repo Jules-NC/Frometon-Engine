@@ -18,7 +18,7 @@ CShape::CShape() {
 std::vector<CShape *> CShape::list = std::vector<CShape *>();
 
 
-void CShape::init(const char* pathobj, const char * path) {
+void CShape::init(const char* pathobj, const char * path, int pIndex) {
 
     static Assimp::Importer importer;
     const aiScene * scene = importer.ReadFile(pathobj, aiProcess_Triangulate
@@ -34,19 +34,21 @@ void CShape::init(const char* pathobj, const char * path) {
 
     CShape::list.push_back(this);
 
-    const aiMesh * mesh = scene->mMeshes[0];
+    const aiMesh * mesh = scene->mMeshes[pIndex];
     GLuint numFaces = mesh->mNumFaces;
     GLuint numVertices = mesh->mNumVertices;
     aiVector3D * vertices = mesh->mVertices;
 
     this->mNumElements = numFaces * 3;
 
-    GLfloat * myVertices = (float *)malloc(numVertices * sizeof(float) * 3);
+    aiVector3D * myVertices = (aiVector3D *)malloc(numVertices * sizeof(aiVector3D));
     GLfloat * myUVs = (float *)malloc(numVertices * sizeof(float) * 2);
     GLuint * myElements = (unsigned int *)malloc(numFaces * sizeof(unsigned int) * 3);
 
     const aiFace * faces = mesh->mFaces;
 
+    myVertices = vertices;
+    /*
     int j = 0;
     for (int i = 0; i < numVertices; i++) {
         myVertices[j] = vertices[i].x;
@@ -54,8 +56,8 @@ void CShape::init(const char* pathobj, const char * path) {
         myVertices[j + 2] = vertices[i].z;
         j += 3;
     }
-
-    j = 0;
+*/
+    int j = 0;
     for (int i = 0; i < numFaces; i++) {
         GLuint mIndices = faces[i].mNumIndices;
         GLuint * indices = faces[i].mIndices;
@@ -83,42 +85,10 @@ void CShape::init(const char* pathobj, const char * path) {
             j += 2;
         }
 
-        std::cout << "NOMBRE UVS: " << mesh->mNumVertices << std::endl;
+        std::cout << "NOMBRE UVS: " << mesh->mNumUVComponents << std::endl;
 
     }
     std::cout << "---------------------------------------------------------" << std::endl;
-
-
-    //========================================================
-    std::vector<unsigned short> dIndices;
-    std::vector<glm::vec3> dVertices;
-    std::vector<glm::vec2> dUvs;
-
-    dVertices.reserve(mesh->mNumVertices);
-    for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-        aiVector3D pos = mesh->mVertices[i];
-        dVertices.push_back(glm::vec3(pos.x, pos.y, pos.z));
-    }
-
-    if (mesh->HasTextureCoords(0)) {
-
-        dUvs.reserve(mesh->mNumVertices);
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-            aiVector3D UVW = mesh->mTextureCoords[0][i]; // Assume only 1 set of UV coords; AssImp supports 8 UV sets.
-            dUvs.push_back(glm::vec2(UVW.x, UVW.y));
-        }
-    }
-
-    dIndices.reserve(3 * mesh->mNumFaces);
-    for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
-        // Assume the model has only triangles.
-        dIndices.push_back(mesh->mFaces[i].mIndices[0]);
-        dIndices.push_back(mesh->mFaces[i].mIndices[1]);
-        dIndices.push_back(mesh->mFaces[i].mIndices[2]);
-    }
-
-
-    //========================================================
 
 
     this->vertices = myVertices;
@@ -134,7 +104,7 @@ void CShape::init(const char* pathobj, const char * path) {
     glGenBuffers(1, &UVO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*numVertices * 3, this->vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(aiVector3D)*numVertices, this->vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*numFaces * 3, this->indices, GL_STATIC_DRAW);
