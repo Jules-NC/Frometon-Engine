@@ -10,6 +10,8 @@ list(APPEND MAIN_APP_SOURCES
   SControls.h
   SGUI.cpp
   SGUI.h
+  MShape.cpp
+  MShape.h
   #stb_image.h
 
   imgui_impl_opengl3.h

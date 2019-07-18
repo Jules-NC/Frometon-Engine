@@ -1,18 +1,27 @@
 #include <iostream>
+#define GLFW_INCLUDE_NONE
+
 #include <vector>
+#include <string>
 #include "CShape.h"
 
 #include "stb_image.h"
 #include <assimp/Importer.hpp>			// |Assimp
 #include <assimp/scene.h>           // Output data structure
 #include <assimp/postprocess.h>
+#include "imgui.h"
+#include "SGUI.h"
 
-CShape::CShape() {}
+CShape::CShape() {
+}
+
+std::vector<CShape *> CShape::list = std::vector<CShape *>();
+
 
 void CShape::init(const char* pathobj, const char * path) {
 
-    Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(pathobj, aiProcess_Triangulate
+    static Assimp::Importer importer;
+    const aiScene * scene = importer.ReadFile(pathobj, aiProcess_Triangulate
         | aiProcess_FlipUVs);
 
     if (!scene) {
@@ -21,11 +30,14 @@ void CShape::init(const char* pathobj, const char * path) {
         return;
     }
 
+    this->scene = importer.GetOrphanedScene();
+
+    CShape::list.push_back(this);
+
     const aiMesh * mesh = scene->mMeshes[0];
     GLuint numFaces = mesh->mNumFaces;
     GLuint numVertices = mesh->mNumVertices;
     aiVector3D * vertices = mesh->mVertices;
-
 
     this->mNumElements = numFaces * 3;
 
@@ -56,6 +68,7 @@ void CShape::init(const char* pathobj, const char * path) {
 
     std::cout << "=========================================================" << std::endl;
     std::cout << "Mesh: " << pathobj << std::endl;
+    std::cout << "mNumMeshes: " << scene->mNumMeshes << std::endl;
     std::cout << "HasTexture: " << scene->HasTextures() << std::endl;
     std::cout << "HasTextureCoords: " << mesh->HasTextureCoords(0) << std::endl;
 
@@ -178,12 +191,14 @@ void CShape::draw() {
 }
 
 void CShape::FreeMemory() {
+
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
     glDeleteBuffers(1, &UVO);
     glDeleteVertexArrays(1, &VAO);
     free(this->vertices);
-    //free(this->indices);
+    free(this->indices);
+    free(this->uv);
     //free(this->path);
 }
 

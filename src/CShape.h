@@ -1,9 +1,22 @@
 #pragma once
 //#include <GL/glew.h>
+#define GLFW_INCLUDE_NONE
+#ifndef GLAD_I
+#define GLAD_I
 #include <glad/glad.h>
+#endif
 
+#include <vector>
 #include <glm/gtc/matrix_transform.hpp>
+
+#ifndef ASSIMP_I
+#define ASSIMP_I
+#include <assimp/scene.h>
+#endif
+
 #define STB_IMAGE_IMPLEMENTATION
+
+
 
 struct Vertex {
     glm::vec3 Vertices;
@@ -27,6 +40,9 @@ public:
     void rotateZ(float x);
     void rotateY(float y);
     void scale(float s);
+
+    const aiScene * scene;
+    static std::vector<CShape*> list;
 
 private:
     GLuint VAO;
