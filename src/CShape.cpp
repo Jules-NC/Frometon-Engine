@@ -5,7 +5,11 @@
 #include <string>
 #include "CShape.h"
 
+#ifndef STB_I
+#define STB_I
 #include "stb_image.h"
+#endif
+
 #include <assimp/Importer.hpp>			// |Assimp
 #include <assimp/scene.h>           // Output data structure
 #include <assimp/postprocess.h>
@@ -59,7 +63,6 @@ void CShape::init(const char* pathobj, const char * path, int pIndex) {
 */
     int j = 0;
     for (int i = 0; i < numFaces; i++) {
-        GLuint mIndices = faces[i].mNumIndices;
         GLuint * indices = faces[i].mIndices;
 
         myElements[j] = indices[0];

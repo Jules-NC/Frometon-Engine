@@ -14,15 +14,7 @@
 #include <assimp/scene.h>
 #endif
 
-#define STB_IMAGE_IMPLEMENTATION
 
-
-
-struct Vertex {
-    glm::vec3 Vertices;
-    glm::vec2 UVs;
-    glm::vec3 Normals;
-};
 
 class CShape {
 public:

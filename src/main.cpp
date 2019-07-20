@@ -48,9 +48,12 @@
     #include "imgui_impl_opengl3.h"
 #endif
 
+
+#include "MShape.h"
+
 GLFWwindow * WINDOW;
-unsigned int WIDTH = 1920;
-unsigned int HEIGHT = 1080;
+unsigned int WIDTH = 1920 >> 1;
+unsigned int HEIGHT = 1080 >> 1;
 
 
 
@@ -89,21 +92,9 @@ int main(int, char**)
     CShape cddd = CShape();
     cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg", 0);
 
-    CShape msquare0 = CShape();
-    CShape msquare1 = CShape();
-    CShape msquare2 = CShape();
-    CShape msquare3 = CShape();
-    CShape msquare4 = CShape();
-    CShape msquare5 = CShape();
-    CShape msquare6 = CShape();
+    MShape sqd  = MShape();
+    sqd.load("../../res/Tree1.obj");
 
-    msquare0.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 0);
-    msquare1.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 1);
-    msquare2.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 2);
-    msquare3.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 3);
-    msquare4.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 4);
-    msquare5.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 5);
-    msquare6.init("../../res/01Alocasia_obj.obj", "../../res/TextureGrid.jpg", 6);
 
 
     while (!glfwWindowShouldClose(window))
@@ -122,14 +113,6 @@ int main(int, char**)
         SGUI::getInstance().beginDrawFrame();
 
         cddd.draw();
-        msquare0.draw();
-        msquare1.draw();
-        msquare2.draw();
-        msquare3.draw();
-        msquare4.draw();
-        msquare5.draw();
-        msquare6.draw();
-
 
         SGUI::getInstance().endDrawFrame();
 
@@ -144,7 +127,6 @@ int main(int, char**)
 
     }
     cddd.FreeMemory();
-    msquare0.FreeMemory();
     SGUI::getInstance().cleanup();
 
     glfwDestroyWindow(window);
