@@ -30,12 +30,6 @@
     #include "SControls.h"
 #endif
 
-
-#ifndef CSHAPE_I
-    #define CSHAPE_I
-    #include "CShape.h"
-#endif
-
 #ifndef SGUI_I
     #define SGUI_I
     #include "SGUI.h"
@@ -93,13 +87,15 @@ int main(int, char**)
     //cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg", 0);
 
     MShape sqd  = MShape();
-    sqd.load("../../res/scene.gltf");
+    sqd.load("../../res/sponza.obj");
 
+    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.05, 0.05, 0.05));
 
 
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
         glfwPollEvents();
 
         SControls::getInstance().computeInputs();

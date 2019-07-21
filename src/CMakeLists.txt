@@ -2,8 +2,8 @@
 list(APPEND MAIN_APP_SOURCES
   main.cpp
 
-  CShape.cpp
-  CShape.h
+  #CShape.cpp
+  #CShape.h
   shader.cpp
   shader.h
   SControls.cpp

@@ -25,13 +25,37 @@ void MShape::load(std::string pathToFile){
         for (unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             const aiMaterial* material = scene->mMaterials[i];
-            aiString texturePath;
 
+            std::cerr << "=========================[Texture summary]===================================\n";
+
+            std::cerr << "AMBIENT: " << material->GetTextureCount(aiTextureType_AMBIENT) << std::endl;
+            std::cerr << "DIFFUSE: " << material->GetTextureCount(aiTextureType_DIFFUSE) << std::endl;
+            std::cerr << "DISPLACEMENT: " << material->GetTextureCount(aiTextureType_DISPLACEMENT) << std::endl;
+            std::cerr << "EMISSIVE: " << material->GetTextureCount(aiTextureType_EMISSIVE) << std::endl;
+            std::cerr << "HEIGHT: " << material->GetTextureCount(aiTextureType_HEIGHT) << std::endl;
+            std::cerr << "LIGHTMAP: " << material->GetTextureCount(aiTextureType_LIGHTMAP) << std::endl;
+            std::cerr << "NONE: " << material->GetTextureCount(aiTextureType_NONE) << std::endl;
+            std::cerr << "NORMALS: " << material->GetTextureCount(aiTextureType_NORMALS) << std::endl;
+            std::cerr << "OPACITY: " << material->GetTextureCount(aiTextureType_OPACITY) << std::endl;
+            std::cerr << "REFLECTION: " << material->GetTextureCount(aiTextureType_REFLECTION) << std::endl;
+            std::cerr << "SHININESS: " << material->GetTextureCount(aiTextureType_SHININESS) << std::endl;
+            std::cerr << "SPECULAR: " << material->GetTextureCount(aiTextureType_SPECULAR) << std::endl;
+            std::cerr << "UNKNOWN: " << material->GetTextureCount(aiTextureType_UNKNOWN) << std::endl;
+
+            aiString texturePath;
             unsigned int numTextures= material->GetTextureCount(aiTextureType_DIFFUSE);   // always 0
             if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0 && material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS)
             {
+                std::cerr << "\nName: " << texturePath.C_Str() << "]" << std::endl;
                 this->texturesPaths.push_back(texturePath);
             }
+            else{
+                this->texturesPaths.push_back(aiString("TextureDefault.jpg"));
+
+                std::cerr <<"\nNo diffuse texture was found..." << std::endl;
+            }
+            std::cerr << "=============================================================================\n";
+
         }
     }
 
@@ -65,7 +89,9 @@ void MShape::loadMesh(unsigned int i)
 {
     aiMesh * vMesh = this->scene->mMeshes[i];
     std::cerr << "Mesh n°" << i << " want to be loaded with texture: " << this->texturesPaths[vMesh->mMaterialIndex].C_Str() << std::endl;
+    //SubShape sb = SubShape(vMesh, this->texturesPaths[vMesh->mMaterialIndex]);
     SubShape sb = SubShape(vMesh, this->texturesPaths[vMesh->mMaterialIndex]);
+
     this->shapes.push_back(sb);
 }
 
