@@ -31,20 +31,15 @@ SubShape::SubShape(aiMesh * mesh, std::string texturePath){
         j += 3;
     }
 
-    std::cerr << "HAYHAY" << std::endl;
-
     this->uv = (float *)malloc(this->numVertices * sizeof(float)*2);
-    std::cerr << "HAYHAY" << std::endl;
 
     j = 0;
     for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-        std::cerr << "HAYHAY" << std::endl;
 
         this->uv[j] = mesh->mTextureCoords[0][i].x;
         this->uv[j + 1] = mesh->mTextureCoords[0][i].y;
         j += 2;
     }
-    std::cerr << "HAYHAY" << std::endl;
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);

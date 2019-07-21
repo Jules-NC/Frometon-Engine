@@ -93,7 +93,7 @@ int main(int, char**)
     cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg", 0);
 
     MShape sqd  = MShape();
-    sqd.load("../../res/Tree1.obj");
+    sqd.load("../../res/01Alocasia_obj.obj");
 
 
 
@@ -112,7 +112,8 @@ int main(int, char**)
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
         SGUI::getInstance().beginDrawFrame();
 
-        cddd.draw();
+        //cddd.draw();
+        sqd.draw();
 
         SGUI::getInstance().endDrawFrame();
 

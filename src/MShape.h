@@ -18,5 +18,5 @@ private:
     void loadMesh(unsigned int i);
 
     unsigned int numMeshes;
-    std::vector<SubShape *> shapes;
+    std::vector<SubShape> shapes;
 };

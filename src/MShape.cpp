@@ -5,7 +5,7 @@
 #include <iostream>
 
 void MShape::load(std::string pathToFile){
-    this->shapes = std::vector<SubShape *>();
+    this->shapes = std::vector<SubShape>();
     std::cerr << "++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 
     std::cerr << "[Begin loading of new mesh]" << std::endl;
@@ -44,7 +44,17 @@ void MShape::loadNode(aiNode * node)
 void MShape::loadMesh(unsigned int i)
 {
     aiMesh * vMesh = this->scene->mMeshes[i];
-    SubShape sb = SubShape(vMesh, "../../res/TextureGrid.jpg");
     std::cerr << "Mesh n°" << i << " want to be loaded" << std::endl;
+    SubShape sb = SubShape(vMesh, "../../res/TextureGrid.jpg");
+    this->shapes.push_back(sb);
+}
 
+
+void MShape::draw(){
+for(int i=0; i<this->scene->mNumMeshes; ++i)
+    {
+        for(SubShape shape : shapes){
+            shape.draw();
+        }
+    }
 }
