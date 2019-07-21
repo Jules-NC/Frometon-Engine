@@ -12,6 +12,7 @@ build/*
 # Ressource files
 *.jpg
 *.png
+res/
 
 # Submodules files
 

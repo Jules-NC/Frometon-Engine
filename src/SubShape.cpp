@@ -10,7 +10,7 @@
 #define GLFW_INCLUDE_NONE
 
 
-SubShape::SubShape(aiMesh * mesh, std::string texturePath){
+SubShape::SubShape(aiMesh * mesh, aiString texturePath){
     this->path = texturePath;
 
     this->numVertices = mesh->mNumVertices;
@@ -18,8 +18,10 @@ SubShape::SubShape(aiMesh * mesh, std::string texturePath){
     this->numUV = this->numVertices*2;
     this->numFaces = mesh->mNumFaces;
 
+    std::cerr << "\tLoading vertices" << std::endl;
     this->vertices = mesh->mVertices;
 
+    std::cerr << "\tLoading indices" << std::endl;
     this->indices = (unsigned int *)malloc(numIndices*sizeof(unsigned int));
 
     int j = 0;
@@ -31,16 +33,20 @@ SubShape::SubShape(aiMesh * mesh, std::string texturePath){
         j += 3;
     }
 
+    std::cerr << "\tLoading UVs" << std::endl;
     this->uv = (float *)malloc(this->numVertices * sizeof(float)*2);
+    std::cerr << "\tLoading UVs 2" << std::endl;
 
     j = 0;
-    for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-
-        this->uv[j] = mesh->mTextureCoords[0][i].x;
-        this->uv[j + 1] = mesh->mTextureCoords[0][i].y;
-        j += 2;
+    if (mesh->HasTextureCoords(0)){
+        for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
+            this->uv[j] = mesh->mTextureCoords[0][i].x;
+            this->uv[j + 1] = mesh->mTextureCoords[0][i].y;
+            j += 2;
+        }
     }
 
+    std::cerr << "\tBinding UVs vertices" << std::endl;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
@@ -65,6 +71,8 @@ SubShape::SubShape(aiMesh * mesh, std::string texturePath){
 
 
 void SubShape::initTexture(){
+    std::cerr << "\tLoading texture" << std::endl;
+
     glGenTextures(1, &this->TextureID);
     glBindTexture(GL_TEXTURE_2D, this->TextureID);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
@@ -72,7 +80,12 @@ void SubShape::initTexture(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     int width, height, nrChannels;
-    unsigned char *data = stbi_load(this->path.c_str(), &width, &height, &nrChannels, 0);
+    std::string pathbase = "../../res/";
+    std::string subpath = this->path.C_Str();
+    std::replace(subpath.begin(), subpath.end(), '\\', '/');
+    std::string fullPath = pathbase + subpath;
+    std::cerr << "Loading img: " << fullPath << std::endl;
+    unsigned char *data = stbi_load(fullPath.c_str(), &width, &height, &nrChannels, 0);
     if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);

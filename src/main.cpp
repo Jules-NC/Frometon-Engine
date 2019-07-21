@@ -87,13 +87,13 @@ int main(int, char**)
 
     glm::mat4 ModelMatrix = glm::mat4(1.0);
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, 0.f));
-    ModelMatrix = glm::rotate(ModelMatrix, 18.f, glm::vec3(1.f, 0.f, 0.f));
+    //ModelMatrix = glm::rotate(ModelMatrix, 18.f, glm::vec3(1.f, 0.f, 0.f));
     glUseProgram(programID);
-    CShape cddd = CShape();
-    cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg", 0);
+    //CShape cddd = CShape();
+    //cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg", 0);
 
     MShape sqd  = MShape();
-    sqd.load("../../res/01Alocasia_obj.obj");
+    sqd.load("../../res/scene.gltf");
 
 
 
@@ -127,7 +127,7 @@ int main(int, char**)
         glfwSwapBuffers(window);
 
     }
-    cddd.FreeMemory();
+    //cddd.FreeMemory();
     SGUI::getInstance().cleanup();
 
     glfwDestroyWindow(window);

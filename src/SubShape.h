@@ -7,7 +7,7 @@
 
 class SubShape{
 public:
-    SubShape(aiMesh * mesh, std::string texturePath);
+    SubShape(aiMesh * mesh, aiString texturePath);
     void draw();
     void denit();
 
@@ -29,5 +29,5 @@ private:
     GLfloat * uv;
 
     glm::mat4 model = glm::mat4(1.0f);
-    std::string path;
+    aiString path;
 };

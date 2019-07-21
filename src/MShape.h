@@ -19,4 +19,6 @@ private:
 
     unsigned int numMeshes;
     std::vector<SubShape> shapes;
+    std::vector<aiString> texturesPaths;
+
 };
