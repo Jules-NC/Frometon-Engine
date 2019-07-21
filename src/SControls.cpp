@@ -1,7 +1,15 @@
 #include <iostream>
 #include "SControls.h"
-#include <glm/glm.hpp>					// |glm
-#include <glm/glm.hpp>
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
+#ifndef GLM_I
+    #define GLM_I
+    #include <glm/glm.hpp>
+#endif
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <math.h>
 
@@ -10,7 +18,7 @@ const float PIs2 = M_1_PI/2*10;
 
 
 void clampVerticalAngle(float * verticalAngle);
-void scroll_callback2(GLFWwindow* window, double xoffset, double yoffset);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 static void glfw_error_callback(int error, const char* description);
 
 
@@ -139,10 +147,13 @@ void SControls::computeInputs()
         position -= up * deltaTime * cameraSpeed;
     }
 
-    this->projMatrix = glm::perspective(this->fov, 16.0f / 9.0f, 0.01f, 1000000.0f);
+    this->projMatrix = glm::infinitePerspective(this->fov, 16.0f / 9.0f, 0.01f);
     this->viewMatrix = glm::lookAt(position, position+direction, up);
 
-    glfwSetScrollCallback(WINDOW, scroll_callback2);
+    //g
+
+
+    glfwSetScrollCallback(WINDOW, scroll_callback);
 
     lastTime = currentTime;
 }
@@ -170,7 +181,8 @@ static void glfw_error_callback(int error, const char* description)
 }
 
 
-void scroll_callback2(GLFWwindow* window, double xoffset, double yoffset){
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
+    ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset);
     float speed = SControls::getInstance().getCameraSpeed();
     if (yoffset > 0) {
         SControls::getInstance().setCameraSpeed(speed*1.25);

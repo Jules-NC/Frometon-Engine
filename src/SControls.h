@@ -1,6 +1,10 @@
 #pragma once
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+
+#ifndef GLM_I
+    #define GLM_I
+    #include <glm/glm.hpp>
+#endif
 
 
 class SControls{

@@ -3,28 +3,57 @@
 // (GLFW is a cross-platform general purpose library for handling windows, inputs, OpenGL/Vulkan graphics context creation, etc.)
 // (GL3W is a helper library to access OpenGL functions since there is no standard header to access modern OpenGL functions easily. Alternatives are GLEW, Glad, etc.)
 
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
 
+#define GLFW_INCLUDE_NONE
 #include <stdio.h>
-//#include <GL/gl3w.h>    // This example is using gl3w to access OpenGL functions. You may freely use any other OpenGL loader such as: glew, glad, glLoadGen, etc.
-//#include <glew.h>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include "shader.h"
-//#include "controls.h"
-#include "SControls.h"
-#include "CShape.h"
 #include <iostream>
 
-#include "SGUI.h"
+//#include <GL/gl3w.h>    // This example is using gl3w to access OpenGL functions. You may freely use any other OpenGL loader such as: glew, glad, glLoadGen, etc.
+//#include <glew.h>
+#ifndef GLAD_I
+    #define GLAD_I
+    #include <glad/glad.h>
+#endif
 
+#include <GLFW/glfw3.h>
+
+#ifndef GLM_I
+    #define GLM_I
+    #include <glm/glm.hpp>
+#endif
+#include <glm/glm.hpp>
+
+#include "shader.h"
+
+#ifndef SCONTROLS_I
+    #define SCONTROLS_I
+    #include "SControls.h"
+#endif
+
+
+#ifndef CSHAPE_I
+    #define CSHAPE_I
+    #include "CShape.h"
+#endif
+
+#ifndef SGUI_I
+    #define SGUI_I
+    #include "SGUI.h"
+#endif
+
+#ifndef IMGUI_I
+    #define IMGUI_I
+    #include "imgui.h"
+    #include "imgui_impl_glfw.h"
+    #include "imgui_impl_opengl3.h"
+#endif
+
+
+#include "MShape.h"
 
 GLFWwindow * WINDOW;
-unsigned int WIDTH = 1920/2;
-unsigned int HEIGHT = 1080/2;
+unsigned int WIDTH = 1920 >> 1;
+unsigned int HEIGHT = 1080 >> 1;
 
 
 
@@ -42,10 +71,11 @@ int main(int, char**)
     GLFWwindow* window = SControls::getInstance().getWindows();
     WINDOW = window;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(true); // Enable vsync
+    glfwSwapInterval(false); // Enable vsync
 
     gladLoadGL((GLADloadfunc) glfwGetProcAddress);
     glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 
     SGUI::getInstance().init();
 
@@ -54,13 +84,18 @@ int main(int, char**)
     GLuint programID = LoadShaders("../../src/lol.vs", "../../src/lel.fs");
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
-    CShape cddd = CShape();
-    cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg");
 
     glm::mat4 ModelMatrix = glm::mat4(1.0);
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, 0.f));
-    ModelMatrix = glm::rotate(ModelMatrix, 18.f, glm::vec3(1.f, 0.f, 0.f));
+    //ModelMatrix = glm::rotate(ModelMatrix, 18.f, glm::vec3(1.f, 0.f, 0.f));
     glUseProgram(programID);
+    //CShape cddd = CShape();
+    //cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg", 0);
+
+    MShape sqd  = MShape();
+    sqd.load("../../res/scene.gltf");
+
+
 
     while (!glfwWindowShouldClose(window))
     {
@@ -75,10 +110,12 @@ int main(int, char**)
 
         MVP = ProjectionMatrix * ViewMatrix* ModelMatrix;
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-        cddd.draw();
+        SGUI::getInstance().beginDrawFrame();
 
-        SGUI::getInstance().drawFrame();
+        //cddd.draw();
+        sqd.draw();
 
+        SGUI::getInstance().endDrawFrame();
 
         int display_w, display_h;
         //glfwMakeContextCurrent(window);
@@ -90,6 +127,7 @@ int main(int, char**)
         glfwSwapBuffers(window);
 
     }
+    //cddd.FreeMemory();
     SGUI::getInstance().cleanup();
 
     glfwDestroyWindow(window);

@@ -1,22 +1,27 @@
 #pragma once
 //#include <GL/glew.h>
+#define GLFW_INCLUDE_NONE
+#ifndef GLAD_I
+#define GLAD_I
 #include <glad/glad.h>
+#endif
 
+#include <vector>
 #include <glm/gtc/matrix_transform.hpp>
-#define STB_IMAGE_IMPLEMENTATION
 
-struct Vertex {
-    glm::vec3 Vertices;
-    glm::vec2 UVs;
-    glm::vec3 Normals;
-};
+#ifndef ASSIMP_I
+#define ASSIMP_I
+#include <assimp/scene.h>
+#endif
+
+
 
 class CShape {
 public:
     CShape();
     ~CShape() = default;
 
-    void init(const char * pathobj, const char * path);
+    void init(const char * pathobj, const char * path, int pIndex);
 
     void setup();
     void draw();
@@ -28,6 +33,9 @@ public:
     void rotateY(float y);
     void scale(float s);
 
+    const aiScene * scene;
+    static std::vector<CShape*> list;
+
 private:
     GLuint VAO;
     GLuint VBO;
@@ -35,7 +43,7 @@ private:
     GLuint UVO;
     GLuint TextureID;
 
-    GLfloat * vertices;
+    aiVector3D * vertices;
     GLuint * indices;
     GLfloat * uv;
     const char * path;
