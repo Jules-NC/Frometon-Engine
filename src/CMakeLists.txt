@@ -14,6 +14,8 @@ list(APPEND MAIN_APP_SOURCES
   MShape.h
   SubShape.cpp
   SubShape.h
+  SubTexture.cpp
+  SubTexture.h
   #stb_image.h
 
   imgui_impl_opengl3.h
