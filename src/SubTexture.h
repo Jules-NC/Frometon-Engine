@@ -9,7 +9,16 @@ public:
     void bindTexture();
     void free();
 
+    void showGUI();
+    const aiString * getPath(){
+        return &this->path;
+    }
+
 private:
     GLuint TextureID;
     aiString path;
+
+    int width;
+    int height;
+    int nChannels;
 };

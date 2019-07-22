@@ -1,6 +1,7 @@
 #include "SubTexture.h"
 #include "stb_image.h"
 #include <iostream>
+#include <imgui.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -20,6 +21,9 @@ SubTexture::SubTexture(aiString texturePath){
     std::string fullPath = pathbase + subpath;
     unsigned char *data = stbi_load(fullPath.c_str(), &width, &height, &nrChannels, 0);
 
+    this->width = width;
+    this->height = height;
+    this->nChannels = nrChannels;
     if (data){
         switch (nrChannels) {
         case 3:
@@ -47,4 +51,10 @@ void SubTexture::bindTexture(){
 
 void SubTexture::free(){
     //
+}
+
+void SubTexture::showGUI(){
+    ImGui::Text("Channels %d", this->nChannels);
+    ImGui::Text("Width %d", this->width);
+    ImGui::Text("height %d", this->height);
 }

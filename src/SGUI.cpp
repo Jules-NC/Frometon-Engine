@@ -45,13 +45,11 @@ void SGUI::beginDrawFrame(){
     {
         ImGui::SetNextWindowSize(ImVec2(400, 400));
         static bool t = false;
-        ImGui::Begin("Debug object");
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::Spacing();
         ImGui::Checkbox("demo window", &t);
         if(t) ImGui::ShowDemoWindow();
         ImGui::Spacing();
-        ImGui::End();
     }
 
 }
@@ -66,18 +64,3 @@ void SGUI::cleanup(){
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 }
-
-/*
-
-    {
-        static bool t = false;
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-        ImGui::Text("Windows");
-        ImGui::SliderFloat("speed", &rot_speed, -0.03f, .03f);
-        ImGui::SliderFloat("x", &rot_x, -1.f, 1.f);
-        ImGui::SliderFloat("y", &rot_y, -1.f, 1.f);
-        ImGui::SliderFloat("z", &rot_z, -1.f, 1.f);
-        ImGui::Checkbox("demo window", &t);
-        if(t) ImGui::ShowDemoWindow();
-
-*/
