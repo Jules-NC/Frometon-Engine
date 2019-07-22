@@ -7,6 +7,7 @@ class SubTexture{
 public:
     SubTexture(aiString texturePath);
     void bindTexture();
+    void free();
 
 private:
     GLuint TextureID;

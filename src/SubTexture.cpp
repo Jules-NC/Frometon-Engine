@@ -44,3 +44,7 @@ SubTexture::SubTexture(aiString texturePath){
 void SubTexture::bindTexture(){
     glBindTexture(GL_TEXTURE_2D, this->TextureID);
 }
+
+void SubTexture::free(){
+    //
+}
