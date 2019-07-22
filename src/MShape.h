@@ -4,6 +4,7 @@
 #include <assimp/scene.h>           // Output data structure
 #include "SubShape.h"
 #include <vector>
+#include "SubTexture.h"
 
 class MShape{
 public:
@@ -16,9 +17,11 @@ private:
     const aiScene * scene;
     void loadNode(aiNode * node);
     void loadMesh(unsigned int i);
+    void loadTexture(aiMaterial * material);
 
     unsigned int numMeshes;
     std::vector<SubShape> shapes;
+    std::vector<SubTexture> textures;
     std::vector<aiString> texturesPaths;
 
 };

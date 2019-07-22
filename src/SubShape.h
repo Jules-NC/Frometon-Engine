@@ -4,10 +4,11 @@
 #include <glad/glad.h>
 #include <assimp/scene.h>
 #include <string>
+#include "SubTexture.h"
 
 class SubShape{
 public:
-    SubShape(aiMesh * mesh, aiString texturePath);
+    SubShape(aiMesh * mesh, SubTexture * SubTexture);
     void draw();
     void denit();
 
@@ -29,5 +30,5 @@ private:
     GLfloat * uv;
 
     glm::mat4 model = glm::mat4(1.0f);
-    aiString path;
+    SubTexture * texture;
 };

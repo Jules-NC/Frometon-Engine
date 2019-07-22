@@ -1,9 +1,12 @@
+#include <vector>
+
 #ifndef IMGUI_I
     #define IMGUI_I
     #include "imgui.h"
     #include "imgui_impl_glfw.h"
     #include "imgui_impl_opengl3.h"
 #endif
+
 
 class SGUI{
 public:
