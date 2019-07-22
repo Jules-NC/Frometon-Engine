@@ -70,16 +70,16 @@ void MShape::load(std::string pathToFile){
 
 void MShape::loadNode(aiNode * node)
 {
-    #pragma omp parallel for
+    //#pragma omp parallel for
     for(int i=0; i<node->mNumMeshes; ++i)
     {
         this->loadMesh(node->mMeshes[i]);
     }
 
-    #pragma omp parallel for
+    //#pragma omp parallel for
     for(int i=0; i<node->mNumChildren; ++i)
     {
-        std::cerr << "Load node Children " << i+1 << "/" << node->mNumChildren<< " node n0: " << node->mChildren[i] << std::endl;
+        //std::cerr << "\nLoad node Children " << i+1 << "/" << node->mNumChildren<< " node n0: " << node->mChildren[i] << std::endl;
         this->loadNode(node->mChildren[i]);
     }
 }
@@ -88,8 +88,7 @@ void MShape::loadNode(aiNode * node)
 void MShape::loadMesh(unsigned int i)
 {
     aiMesh * vMesh = this->scene->mMeshes[i];
-    std::cerr << "Mesh n°" << i << " want to be loaded with texture: " << this->texturesPaths[vMesh->mMaterialIndex].C_Str() << std::endl;
-    //SubShape sb = SubShape(vMesh, this->texturesPaths[vMesh->mMaterialIndex]);
+    //std::cerr << "Mesh n°" << i << " want to be loaded with texture: " << this->texturesPaths[vMesh->mMaterialIndex].C_Str() << std::endl;
     SubShape sb = SubShape(vMesh, this->texturesPaths[vMesh->mMaterialIndex]);
 
     this->shapes.push_back(sb);

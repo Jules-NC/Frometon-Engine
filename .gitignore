@@ -12,7 +12,9 @@ build/*
 # Ressource files
 *.jpg
 *.png
-res/
+res/textures/*
+res/sponza.obj
+res/sponza.mtl
 
 # Submodules files
 

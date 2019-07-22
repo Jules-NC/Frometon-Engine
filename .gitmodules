@@ -4,3 +4,6 @@
 [submodule "modules/glfw"]
 	path = modules/glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "res/Sponza"]
+	path = res/Sponza
+	url = https://github.com/jimmiebergmann/Sponza.git
