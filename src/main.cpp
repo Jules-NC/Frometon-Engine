@@ -107,12 +107,13 @@ int main(int, char**)
         glm::mat4 MVP;
         ModelMatrix = glm::rotate(ModelMatrix, rot_speed, glm::vec3(rot_x, rot_y, rot_z));
 
-        MVP = ProjectionMatrix * ViewMatrix* ModelMatrix;
+        MVP = ProjectionMatrix * ViewMatrix* sqd.getModelMatrix();
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
         SGUI::getInstance().beginDrawFrame();
 
         //cddd.draw();
         sqd.draw();
+        sqd.showGUI();
 
         SGUI::getInstance().endDrawFrame();
 

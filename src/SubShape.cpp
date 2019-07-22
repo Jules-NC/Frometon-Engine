@@ -8,6 +8,7 @@
 
 #include <iostream>
 #define GLFW_INCLUDE_NONE
+#include "imgui.h"
 
 
 SubShape::SubShape(aiMesh * mesh, SubTexture * texture){
@@ -83,4 +84,8 @@ void SubShape::draw(){
 void SubShape::freeThis(){
     std::free(this->indices);
     std::free(this->uv);
+}
+
+void SubShape::showGUI(){
+    ImGui::Text("Vertices %d", this->numVertices);
 }

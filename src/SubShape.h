@@ -12,6 +12,8 @@ public:
     void draw();
     void freeThis();
 
+    void showGUI();
+
 private:
     void initTexture();
     GLuint VAO;
