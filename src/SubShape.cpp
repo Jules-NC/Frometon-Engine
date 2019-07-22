@@ -35,7 +35,6 @@ SubShape::SubShape(aiMesh * mesh, aiString texturePath){
 
     std::cerr << "\tLoading UVs" << std::endl;
     this->uv = (float *)malloc(this->numVertices * sizeof(float)*2);
-    std::cerr << "\tLoading UVs 2" << std::endl;
 
     j = 0;
     if (mesh->HasTextureCoords(0)){
@@ -46,7 +45,6 @@ SubShape::SubShape(aiMesh * mesh, aiString texturePath){
         }
     }
 
-    std::cerr << "\tBinding UVs vertices" << std::endl;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
@@ -71,7 +69,6 @@ SubShape::SubShape(aiMesh * mesh, aiString texturePath){
 
 
 void SubShape::initTexture(){
-    std::cerr << "\tLoading texture" << std::endl;
 
     glGenTextures(1, &this->TextureID);
     glBindTexture(GL_TEXTURE_2D, this->TextureID);
@@ -84,16 +81,17 @@ void SubShape::initTexture(){
     std::string subpath = this->path.C_Str();
     std::replace(subpath.begin(), subpath.end(), '\\', '/');
     std::string fullPath = pathbase + subpath;
-    std::cerr << "Loading img: " << fullPath << std::endl;
+    std::cerr << "\tLoading texture from: " << fullPath << std::endl;
     unsigned char *data = stbi_load(fullPath.c_str(), &width, &height, &nrChannels, 0);
+    //unsigned char *data = stbi_load("../../res/TextureDefault.jpg", &width, &height, &nrChannels, 0);
     if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
-        std::cout << "Load image SUCCESS" << std::endl;
-        std::cout << "Image size : " << width << ", " << height << std::endl;
+        std::cout << "\tLoad image SUCCESS" << std::endl;
+        std::cout << "\tImage size : " << width << ", " << height << std::endl;
     }
     else {
-        std::cout << "Failed to load texture" << std::endl;
+        std::cout << "\tFailed to load texture" << std::endl;
     }
     stbi_image_free(data);
 }
