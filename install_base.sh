@@ -5,4 +5,5 @@ wget https://raw.githubusercontent.com/nothings/stb/master/stb_image.h -P src/ -
 
 wget https://anim1-s12.wp.rpi.edu/files/2012/03/TextureGrid.jpg -P res/ -nc
 
-
+mv res/Sponza/* res/
+mkdir build

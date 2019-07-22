@@ -18,10 +18,10 @@ SubShape::SubShape(aiMesh * mesh, aiString texturePath){
     this->numUV = this->numVertices*2;
     this->numFaces = mesh->mNumFaces;
 
-    std::cerr << "\tLoading vertices" << std::endl;
+    //std::cerr << "\tLoading vertices" << std::endl;
     this->vertices = mesh->mVertices;
 
-    std::cerr << "\tLoading indices" << std::endl;
+    //std::cerr << "\tLoading indices" << std::endl;
     this->indices = (unsigned int *)malloc(numIndices*sizeof(unsigned int));
 
     int j = 0;
@@ -33,7 +33,7 @@ SubShape::SubShape(aiMesh * mesh, aiString texturePath){
         j += 3;
     }
 
-    std::cerr << "\tLoading UVs" << std::endl;
+    //std::cerr << "\tLoading UVs" << std::endl;
     this->uv = (float *)malloc(this->numVertices * sizeof(float)*2);
 
     j = 0;
@@ -81,17 +81,26 @@ void SubShape::initTexture(){
     std::string subpath = this->path.C_Str();
     std::replace(subpath.begin(), subpath.end(), '\\', '/');
     std::string fullPath = pathbase + subpath;
-    std::cerr << "\tLoading texture from: " << fullPath << std::endl;
     unsigned char *data = stbi_load(fullPath.c_str(), &width, &height, &nrChannels, 0);
     //unsigned char *data = stbi_load("../../res/TextureDefault.jpg", &width, &height, &nrChannels, 0);
     if (data) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        switch (nrChannels) {
+        case 3:
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            break;
+        case 4:
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            break;
+        default:
+            break;
+        }
+
         glGenerateMipmap(GL_TEXTURE_2D);
-        std::cout << "\tLoad image SUCCESS" << std::endl;
-        std::cout << "\tImage size : " << width << ", " << height << std::endl;
+        //std::cout << "\tLoad image SUCCESS" << std::endl;
+        //std::cout << "\tImage size : " << width << ", " << height << std::endl;
     }
     else {
-        std::cout << "\tFailed to load texture" << std::endl;
+        std::cout << "\tFAILED TO LOAD TEXTURE: " << fullPath.c_str() << std::endl;
     }
     stbi_image_free(data);
 }
