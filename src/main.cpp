@@ -126,6 +126,8 @@ int main(int, char**)
         glfwSwapBuffers(window);
 
     }
+    sqd.free();
+
     //cddd.FreeMemory();
     SGUI::getInstance().cleanup();
 

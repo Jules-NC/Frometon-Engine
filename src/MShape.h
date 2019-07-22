@@ -11,6 +11,7 @@ public:
     MShape()=default;
     void load(std::string pathToFile);
     void draw();
+    void free();
 
 private:
     Assimp::Importer importer;
@@ -22,6 +23,4 @@ private:
     unsigned int numMeshes;
     std::vector<SubShape> shapes;
     std::vector<SubTexture> textures;
-    std::vector<aiString> texturesPaths;
-
 };

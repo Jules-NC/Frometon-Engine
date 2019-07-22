@@ -6,11 +6,8 @@
 
 void MShape::load(std::string pathToFile){
     this->shapes = std::vector<SubShape>();
-    this->texturesPaths = std::vector<aiString>();
-
 
     std::cerr << "++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-
     std::cerr << "[Begin loading of new mesh]" << std::endl;
 
     this->scene = importer.ReadFile(pathToFile, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenUVCoords|aiProcess_TransformUVCoords | aiProcess_FindInvalidData);
@@ -19,7 +16,7 @@ void MShape::load(std::string pathToFile){
         getchar();
         return;
     }
-
+    std::cerr << "N° SHAPES: " << scene->mNumMeshes << "\n";
     if (scene->HasMaterials())
     {
         for(int i=0; i<scene->mNumMaterials; i++){
@@ -81,5 +78,16 @@ void MShape::draw(){
     #pragma omp parallel for
     for(int i=0; i<this->shapes.size(); ++i){
         shapes[i].draw();
+    }
+}
+
+void MShape::free(){
+    std::cerr << "N SHAPES: " << this->shapes.size() << "\n";
+    for(int i=0; i<this->shapes.size(); ++i){
+        (&this->shapes[i])->freeThis();
+    }
+
+    for(int i=0; i<this->textures.size(); ++i){
+        this->textures[i].free();
     }
 }

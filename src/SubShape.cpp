@@ -79,3 +79,8 @@ void SubShape::draw(){
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
 }
+
+void SubShape::freeThis(){
+    std::free(this->indices);
+    std::free(this->uv);
+}

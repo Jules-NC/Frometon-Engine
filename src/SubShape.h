@@ -10,7 +10,7 @@ class SubShape{
 public:
     SubShape(aiMesh * mesh, SubTexture * SubTexture);
     void draw();
-    void denit();
+    void freeThis();
 
 private:
     void initTexture();
@@ -31,4 +31,7 @@ private:
 
     glm::mat4 model = glm::mat4(1.0f);
     SubTexture * texture;
+
+    bool freed = false;
+
 };
