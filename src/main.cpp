@@ -46,8 +46,8 @@
 #include "MShape.h"
 
 GLFWwindow * WINDOW;
-unsigned int WIDTH = 1920 >> 1;
-unsigned int HEIGHT = 1080 >> 1;
+unsigned int WIDTH = 1920 ;//>> 1;
+unsigned int HEIGHT = 1080;// >> 1;
 
 
 
