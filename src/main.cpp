@@ -65,7 +65,9 @@ int main(int, char**)
     GLFWwindow* window = SControls::getInstance().getWindows();
     WINDOW = window;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(false); // Enable vsync
+
+
+    glfwSwapInterval(true); // Enable vsync
 
     gladLoadGL((GLADloadfunc) glfwGetProcAddress);
     glEnable(GL_CULL_FACE);
@@ -75,6 +77,8 @@ int main(int, char**)
     //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
     SGUI::getInstance().init();
+
+    const std::string OPENGL_VERSION = std::string((char *)glGetString(GL_VERSION));
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -113,6 +117,7 @@ int main(int, char**)
 
         //cddd.draw();
         sqd.draw();
+        ImGui::Text("Version : %s", OPENGL_VERSION.c_str());
         sqd.showGUI();
 
         SGUI::getInstance().endDrawFrame();
