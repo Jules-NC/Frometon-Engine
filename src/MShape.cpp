@@ -114,20 +114,20 @@ void MShape::free(){
 
 void MShape::showGUI(){
     if(ImGui::TreeNode("Mesh:")){
-        ImGui::SliderFloat("trans x", &this->position[0], -10, 10);
-        ImGui::SliderFloat("trans y", &this->position[1], -10, 10);
-        ImGui::SliderFloat("trans z", &this->position[2], -10, 10);
+        ImGui::SliderFloat("trans x", &this->position[0], -100, 100);
+        ImGui::SliderFloat("trans y", &this->position[1], -100, 100);
+        ImGui::SliderFloat("trans z", &this->position[2], -100, 100);
 
         ImGui::Spacing();
-        ImGui::SliderFloat("rotation", &this->rotation, -10, 10);
-        ImGui::SliderFloat("rot x", &this->rotationAngle[0], -10, 10);
-        ImGui::SliderFloat("rot y", &this->rotationAngle[1], -10, 10);
-        ImGui::SliderFloat("rot z", &this->rotationAngle[2], -10, 10);
+        ImGui::SliderFloat("rotation", &this->rotation, -1.58, 1.58);
+        ImGui::SliderFloat("rot x", &this->rotationAngle[0], -1, 1);
+        ImGui::SliderFloat("rot y", &this->rotationAngle[1], -1, 1);
+        ImGui::SliderFloat("rot z", &this->rotationAngle[2], -1, 1);
 
         ImGui::Spacing();
-        ImGui::SliderFloat("scal x", &this->scale[0], -10, 10);
-        ImGui::SliderFloat("scal y", &this->scale[1], -10, 10);
-        ImGui::SliderFloat("scal z", &this->scale[2], -10, 10);
+        ImGui::SliderFloat("scal x", &this->scale[0], -1, 1);
+        ImGui::SliderFloat("scal y", &this->scale[1], -1, 1);
+        ImGui::SliderFloat("scal z", &this->scale[2], -1, 1);
 
 
         ImGui::TreePop();

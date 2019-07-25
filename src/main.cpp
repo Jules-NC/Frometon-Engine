@@ -134,7 +134,7 @@ int main(int, char**)
     MShape sqd  = MShape();
     sqd.load("../../res/sponza.obj");
 
-    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.05, 0.05, 0.05));
+    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.01, 0.01, 0.01));
 
 
     // CUBEMAP
@@ -220,6 +220,31 @@ int main(int, char**)
         glm::mat4 MVP;
 
 
+
+
+
+        glUseProgram(programID);
+
+        ModelMatrix = glm::rotate(ModelMatrix, rot_speed, glm::vec3(rot_x, rot_y, rot_z));
+
+        MVP = ProjectionMatrix * ViewMatrix* sqd.getModelMatrix();
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        glUniform3fv(SunPosID, 1, &sunPos[0]);
+
+        SGUI::getInstance().beginDrawFrame();
+
+        sqd.draw();
+
+        ImGui::Text("Version : %s", OPENGL_VERSION.c_str());
+
+        ImGui::SliderFloat("Sun X", &sunPos[0], 0, 10000000);
+        ImGui::SliderFloat("Sun Y", &sunPos[1], 0, 10000000);
+        ImGui::SliderFloat("Sun Z", &sunPos[2], 0, 10000000);
+
+        sqd.showGUI();
+
+
+
         // CUBEMAP 2
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 
@@ -242,38 +267,11 @@ int main(int, char**)
 
        glBindVertexArray(0);
 
-        glDepthFunc(GL_LESS); // set depth function back to default
+       glDepthFunc(GL_LESS); // set depth function back to default
         // END CUBEMAP 2
 
 
-
-        glUseProgram(programID);
-
-        glUseProgram(programID);
-
-        ModelMatrix = glm::rotate(ModelMatrix, rot_speed, glm::vec3(rot_x, rot_y, rot_z));
-
-        MVP = ProjectionMatrix * ViewMatrix* sqd.getModelMatrix();
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-        glUniform3fv(SunPosID, 1, &sunPos[0]);
-
-        SGUI::getInstance().beginDrawFrame();
-
-        sqd.draw();
-
-        ImGui::Text("Version : %s", OPENGL_VERSION.c_str());
-
-        ImGui::SliderFloat("Sun X", &sunPos[0], 0, 10000000);
-        ImGui::SliderFloat("Sun Y", &sunPos[1], 0, 10000000);
-        ImGui::SliderFloat("Sun Z", &sunPos[2], 0, 10000000);
-
-        sqd.showGUI();
-
-        SGUI::getInstance().endDrawFrame();
-
-
-
-
+       SGUI::getInstance().endDrawFrame();
 
         int display_w, display_h;
         glfwMakeContextCurrent(window);
