@@ -124,8 +124,6 @@ int main(int, char**)
 
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
-    GLuint SunPosID = glGetUniformLocation(programID, "uSunPos");
-    glm::vec3 sunPos = glm::vec3(1000.f, 0.f, 0.f);
 
     glm::mat4 ModelMatrix = glm::mat4(1.0);
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, 0.f));
@@ -140,6 +138,9 @@ int main(int, char**)
     // CUBEMAP
     GLuint cubemapID = LoadShaders("../../src/cubemap.vs", "../../src/cubemap.fs");
     GLuint cubemapMVID = glGetUniformLocation(cubemapID, "MV");
+    glm::vec3 sunPos = glm::vec3(1.f, 0.f, 0.f);
+
+    GLuint SunPosID = glGetUniformLocation(cubemapID, "uSunPos");
 
     std::vector<std::string> textures_faces = std::vector<std::string>();
     textures_faces.push_back("../../res/purplenebula_bk.tga");
@@ -229,7 +230,6 @@ int main(int, char**)
 
         MVP = ProjectionMatrix * ViewMatrix* sqd.getModelMatrix();
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-        glUniform3fv(SunPosID, 1, &sunPos[0]);
 
         SGUI::getInstance().beginDrawFrame();
 
@@ -237,9 +237,9 @@ int main(int, char**)
 
         ImGui::Text("Version : %s", OPENGL_VERSION.c_str());
 
-        ImGui::SliderFloat("Sun X", &sunPos[0], 0, 10000000);
-        ImGui::SliderFloat("Sun Y", &sunPos[1], 0, 10000000);
-        ImGui::SliderFloat("Sun Z", &sunPos[2], 0, 10000000);
+        ImGui::SliderFloat("Sun X", &sunPos[0], -3.14, 3.14);
+        ImGui::SliderFloat("Sun Y", &sunPos[1], -0.14, .3);
+        ImGui::SliderFloat("Sun Z", &sunPos[2], -3.14, 3.14);
 
         sqd.showGUI();
 
@@ -254,6 +254,8 @@ int main(int, char**)
         MVP = ProjectionMatrix*view;
 
         glUniformMatrix4fv(cubemapMVID, 1, GL_FALSE, &MVP[0][0]);
+        glUniform3fv(SunPosID, 1, &sunPos[0]);
+
 
         glBindVertexArray(skyboxVAO);
         glActiveTexture(GL_TEXTURE0);
