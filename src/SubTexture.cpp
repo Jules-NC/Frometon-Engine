@@ -53,8 +53,44 @@ void SubTexture::free(){
     //
 }
 
+
+void normalize(float * x, float * y){
+    if(*x>300){
+        float ratio = 300/ *x;
+        *x = *x * ratio;
+        std::cerr << "x: " << *x << std::endl;
+        std::cerr << "y: " << *y << std::endl;
+
+        *y = *y * ratio;
+    }
+}
+
 void SubTexture::showGUI(){
     ImGui::Text("Channels %d", this->nChannels);
     ImGui::Text("Width %d", this->width);
     ImGui::Text("height %d", this->height);
+
+    ImGui::Text("%.0fx%.0f", width, height);
+
+    static float x = width;
+    static float y = height;
+    normalize(&x, &y);
+
+    ImGui::Image((void*)(intptr_t)this->TextureID, ImVec2(x, y));
+    ImGuiIO& io = ImGui::GetIO();
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+    if (ImGui::IsItemHovered())
+         {
+             ImGui::BeginTooltip();
+             float region_sz = 32.0f;
+             float region_x = io.MousePos.x - pos.x - region_sz * 0.5f; if (region_x < 0.0f) region_x = 0.0f; else if (region_x > width - region_sz) region_x = width - region_sz;
+             float region_y = io.MousePos.y - pos.y - region_sz * 0.5f; if (region_y < 0.0f) region_y = 0.0f; else if (region_y > height - region_sz) region_y = height - region_sz;
+             float zoom = 4.f;
+             ImGui::Text("Min: (%.2f, %.2f)", region_x, region_y);
+             ImGui::Text("Max: (%.2f, %.2f)", region_x + region_sz, region_y + region_sz);
+             ImVec2 uv0 = ImVec2((region_x) / width, (region_y) / height);
+             ImVec2 uv1 = ImVec2((region_x + region_sz) / width, (region_y + region_sz) / height);
+             ImGui::Image((void*)(intptr_t)this->TextureID, ImVec2(region_sz * zoom, region_sz * zoom), uv0, uv1, ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+             ImGui::EndTooltip();
+         }
 }

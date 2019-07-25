@@ -147,7 +147,7 @@ void SControls::computeInputs()
         position -= up * deltaTime * cameraSpeed;
     }
 
-    this->projMatrix = glm::infinitePerspective(this->fov, 16.0f / 9.0f, 0.01f);
+    this->projMatrix = glm::perspective(this->fov, 16.0f / 9.0f, 0.01f, 10000.f);
     this->viewMatrix = glm::lookAt(position, position+direction, up);
 
     //g
