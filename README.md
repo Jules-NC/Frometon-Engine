@@ -6,6 +6,8 @@ Frometon-Engine is an opinioned game engine with a focus on space physics
 
 Frometon-Engine is licensed under GNU v3.0 license.
 
+![](https://user-images.githubusercontent.com/18371413/61643916-147f1e80-aca4-11e9-9d41-45db9514ba6b.png)
+
 
 ### Development
 
