@@ -23,6 +23,7 @@ public:
 
     float getCameraSpeed();
     void setCameraSpeed(float f);
+    glm::vec3 getPosition();
 
 private:
     SControls() = default;

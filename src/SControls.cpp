@@ -201,3 +201,8 @@ void clampVerticalAngle(float * verticalAngle){
         *verticalAngle = -PIs2;
     }
 }
+
+
+glm::vec3 SControls::getPosition(){
+    return position;
+}

@@ -44,6 +44,7 @@
 
 
 #include "MShape.h"
+#include "QuadTree.h"
 
 GLFWwindow * WINDOW;
 unsigned int WIDTH = 1920 >> 1;
@@ -65,14 +66,14 @@ int main(int, char**)
     GLFWwindow* window = SControls::getInstance().getWindows();
     WINDOW = window;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(false); // Enable vsync
+    glfwSwapInterval(true); // Enable vsync
 
     gladLoadGL((GLADloadfunc) glfwGetProcAddress);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
     SGUI::getInstance().init();
 
@@ -80,6 +81,8 @@ int main(int, char**)
 
     GLuint programID = LoadShaders("../../src/lol.vs", "../../src/lel.fs");
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+    GLuint ViewID = glGetUniformLocation(programID, "P");
+
 
 
     glm::mat4 ModelMatrix = glm::mat4(1.0);
@@ -89,14 +92,16 @@ int main(int, char**)
     //CShape cddd = CShape();
     //cddd.init("../../res/square.obj", "../../res/TextureGrid.jpg", 0);
 
-    MShape sqd  = MShape();
-    sqd.load("../../res/sponza.obj");
+    //MShape sqd  = MShape();
+    //sqd.load("../../res/sponza.obj");
 
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.05, 0.05, 0.05));
 
 
-    while (!glfwWindowShouldClose(window))
+    int compteur = 0;
+    while (compteur > -100 && !glfwWindowShouldClose(window))
     {
+        ++compteur;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
         glfwPollEvents();
@@ -107,14 +112,25 @@ int main(int, char**)
         glm::mat4 MVP;
         ModelMatrix = glm::rotate(ModelMatrix, rot_speed, glm::vec3(rot_x, rot_y, rot_z));
 
-        MVP = ProjectionMatrix * ViewMatrix* sqd.getModelMatrix();
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        //MVP = ProjectionMatrix * ViewMatrix* sqd.getModelMatrix();
+        glm::mat4 MV = ProjectionMatrix * ViewMatrix;
+        //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
         SGUI::getInstance().beginDrawFrame();
 
         //cddd.draw();
-        sqd.draw();
-        sqd.showGUI();
+        //sqd.draw();
+        {
 
+            GLuint VertexArrayID;
+            glGenVertexArrays(1, &VertexArrayID);
+
+            QuadTree qt(AABB(XYZ(0, 0, 0), 100));
+            glm::vec3 position = SControls::getInstance().getPosition();
+            qt.insert(XYZ(position.x, position.y, position.z));
+            qt.draw(MatrixID, MV, VertexArrayID);
+            qt.deleteObj();
+            //sqd.showGUI();
+        }
         SGUI::getInstance().endDrawFrame();
 
         int display_w, display_h;
@@ -122,12 +138,12 @@ int main(int, char**)
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-
-        glfwMakeContextCurrent(window);
         glfwSwapBuffers(window);
 
+        glfwMakeContextCurrent(window);
+
     }
-    sqd.free();
+    //sqd.free();
 
     //cddd.FreeMemory();
     SGUI::getInstance().cleanup();
