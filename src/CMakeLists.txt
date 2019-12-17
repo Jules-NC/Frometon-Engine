@@ -18,7 +18,8 @@ list(APPEND MAIN_APP_SOURCES
   SubTexture.h
   #stb_image.h
   QuadTree.h
-  PerlinNoise.hpp
+  QuadTree.cpp
+
 
 
   imgui_impl_opengl3.h
